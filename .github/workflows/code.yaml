@@ -20,16 +20,19 @@ jobs:
         with:
           fetch-depth: 2
 
-      - name: Determine if docs files changed
+      - name: Determine if non-docs files changed
         id: changed-files
         run: |
           # Get the list of changed files between the last two commits
           changed_files=$(git diff --name-only HEAD~1 HEAD)
 
-          # Check if any of the changed files are in the "docs/" directory
-          if echo "$changed_files" | grep -q '^docs/'; then
-            echo "Docs files changed."
-            echo "should_run=true" >> $GITHUB_OUTPUT
+          # Exclude files with the "docs/" prefix
+          non_docs_files=$(echo "$changed_files" | grep -v '^docs/')
+
+          # Check if any non-docs files exist
+          if [ -n "$non_docs_files" ]; then
+            echo "Code files (non-docs) changed."
+            echo "echo code_files_changed=true >> $GITHUB_OUTPUT"
           fi
 
   # The main job of the workflow. Should only run if the files related to the
@@ -39,4 +42,4 @@ jobs:
     needs: changed-files
     if: ${{ needs.changed-files.outputs.main_job_should_run }}
     steps:
-      - run: 'echo "the docs main job is running"'
+      - run: 'echo "the non-docs main job is running"'
