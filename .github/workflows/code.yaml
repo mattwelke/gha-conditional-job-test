@@ -32,7 +32,7 @@ jobs:
           # Check if any non-docs files exist
           if [ -n "$non_docs_files" ]; then
             echo "Code files (non-docs) changed."
-            echo "echo code_files_changed=true >> $GITHUB_OUTPUT"
+            echo "code_files_changed=true" >> $GITHUB_OUTPUT
           fi
 
   # The main job of the workflow. Should only run if the files related to the
