@@ -1,4 +1,4 @@
-name: Docs workflow
+name: Non-docs workflow
 
 on:
   push:
