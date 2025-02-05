@@ -26,8 +26,11 @@ jobs:
           # Get the list of changed files between the last two commits
           changed_files=$(git diff --name-only HEAD~1 HEAD)
 
-          # Exclude files with the "docs/" prefix
-          non_docs_files=$(echo "$changed_files" | grep -v '^docs/')
+          # Exclude files with the "docs/" prefix. The " || true" at the end is
+          # needed because grep is being used outside of an if statement and we
+          # need the script to continue even if grep returns a non-0 exit code,
+          # which it does when there is no match.
+          non_docs_files=$(echo "$changed_files" | grep -v '^docs/' || true)
 
           # Check if any non-docs files exist
           if [ -n "$non_docs_files" ]; then
