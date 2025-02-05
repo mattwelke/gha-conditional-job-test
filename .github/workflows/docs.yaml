@@ -33,10 +33,10 @@ jobs:
           # Check if any of the changed files are in the "docs/" directory
           if echo "$changed_files" | grep -q '^docs/'; then
             echo "Docs files changed."
-            echo "::set-output name=should_run::true"
+            echo "should_run=true" >> $GITHUB_OUTPUT
           else
             echo "No docs files changed."
-            echo "::set-output name=should_run::false"
+            echo "should_run=false" >> $GITHUB_OUTPUT
           fi
 
   # The main job of the workflow. Should only run if the files related to the
